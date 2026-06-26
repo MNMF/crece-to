@@ -70,13 +70,33 @@ Cuando quieran activar confirmaciones automáticas por email:
 2. Agregar `RESEND_API_KEY` a las variables de entorno
 3. Completar el `TODO` en `app/api/agendar/route.ts`
 
-## Fase 3 — Panel admin (CMS)
+## Panel admin (CMS) — ya está construido
 
-La arquitectura ya está lista para esto sin reescribir nada:
+Disponible en `/admin`. Permite:
+- Ver todas las citas agendadas, confirmarlas o cancelarlas
+- Gestionar los bloques de horario disponible (agregar, activar/desactivar, eliminar)
 
-- Mover `lib/servicios.ts` a una tabla `servicios` en Supabase
-- Agregar autenticación con Supabase Auth (`/admin`, solo para ella)
-- Pantalla para: ver/confirmar/cancelar citas, editar servicios y horarios
-  de disponibilidad sin tocar código
+### Activarlo (un solo paso manual en Supabase)
 
-Avísenme cuando quieran este paso y lo construimos sobre esta misma base.
+El panel usa autenticación de Supabase, así que hay que crear el usuario de
+acceso manualmente (no hay registro público, por seguridad):
+
+1. En Supabase: **Authentication** (menú izquierdo) → **Users** → **Add user** → **Create new user**
+2. Completa email y contraseña (las que ella va a usar para entrar)
+3. Importante: marca **"Auto Confirm User"** al crearlo, para que no tenga que confirmar por correo
+4. Listo — ya puede entrar en `tudominio.com/admin/login` con ese email y contraseña
+
+No hay ningún link público al panel admin en el sitio (a propósito, por seguridad).
+Hay que entrar directo a la URL `/admin/login` y guardarla como marcador.
+
+## Fase 3 — completada
+
+~~La arquitectura ya está lista para esto sin reescribir nada~~ — el panel
+admin básico (citas + horarios) ya está implementado. Lo que queda como
+posible mejora futura, si lo necesitan:
+
+- Mover `lib/servicios.ts` a una tabla en Supabase para editar servicios
+  desde el panel sin tocar código
+- Notificaciones por email al confirmar/cancelar una cita (ver sección de
+  Fase 2 más abajo)
+
