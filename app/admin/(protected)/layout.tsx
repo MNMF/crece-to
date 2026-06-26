@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { cerrarSesion } from "./actions";
+import { cerrarSesion } from "../actions";
+
+
 
 export default function AdminLayout({
   children,
