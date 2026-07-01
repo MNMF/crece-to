@@ -3,7 +3,7 @@ import { servicios } from "@/lib/servicios";
 import { actualizarEstadoCita } from "../actions";
 
 const estilosEstado: Record<string, string> = {
-  pendiente: "bg-amber-100 text-amber-800",
+  pendiente: "bg-amber/20 text-amber-dark",
   confirmada: "bg-sage/20 text-sage-dark",
   cancelada: "bg-red-100 text-red-700",
   realizada: "bg-ink/10 text-ink/70",
@@ -18,7 +18,7 @@ export default async function AdminCitasPage() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl text-sage-dark mb-6">Citas</h1>
+      <h1 className="font-display text-3xl text-ink mb-6">Citas</h1>
 
       {(!citas || citas.length === 0) && (
         <p className="text-ink/60">Aún no hay citas agendadas.</p>
@@ -77,7 +77,7 @@ export default async function AdminCitasPage() {
                         "cancelada"
                       )}
                     >
-                      <button className="text-xs border border-terracotta text-terracotta-dark px-3 py-1.5 rounded-full hover:bg-terracotta/10">
+                      <button className="text-xs border border-amber text-amber-dark px-3 py-1.5 rounded-full hover:bg-amber/10">
                         Cancelar
                       </button>
                     </form>

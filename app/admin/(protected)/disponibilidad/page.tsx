@@ -24,7 +24,7 @@ export default async function DisponibilidadPage() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl text-sage-dark mb-2">Horarios</h1>
+      <h1 className="font-display text-3xl text-ink mb-2">Horarios</h1>
       <p className="text-ink/70 mb-6 text-sm">
         Estos bloques definen cuándo aparecen horas disponibles para agendar.
         Cada bloque se divide automáticamente en sesiones según la duración
@@ -86,7 +86,7 @@ export default async function DisponibilidadPage() {
           required
           className="rounded-lg border border-sage/40 bg-white px-3 py-2"
         />
-        <button className="bg-terracotta text-cream px-5 py-2 rounded-full font-medium hover:bg-terracotta-dark">
+        <button className="bg-amber text-cream px-5 py-2 rounded-full font-medium hover:bg-amber-dark">
           Agregar
         </button>
       </form>

@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { cerrarSesion } from "../actions";
 
-
-
 export default function AdminLayout({
   children,
 }: {

@@ -18,7 +18,7 @@ export default function ServiciosPage() {
         { titulo: "Población adulta", lista: adultos },
       ].map((grupo) => (
         <div key={grupo.titulo} className="mb-12">
-          <h2 className="font-display text-2xl text-terracotta mb-6">
+          <h2 className="font-display text-2xl text-amber mb-6">
             {grupo.titulo}
           </h2>
           <div className="space-y-6">
@@ -38,7 +38,7 @@ export default function ServiciosPage() {
       <div className="text-center mt-10">
         <Link
           href="/agenda"
-          className="bg-terracotta text-cream px-7 py-3 rounded-full font-medium hover:bg-terracotta-dark transition-colors inline-block"
+          className="bg-amber text-cream px-7 py-3 rounded-full font-medium hover:bg-amber-dark transition-colors inline-block"
         >
           Agendar una hora
         </Link>

@@ -7,20 +7,20 @@ export default function Home() {
     <main>
       {/* Hero */}
       <section className="max-w-5xl mx-auto px-6 pt-16 pb-10 text-center">
-        <p className="text-terracotta font-medium tracking-wide uppercase text-sm mb-4">
-          Terapia Ocupacional · Talca
+        <p className="text-amber font-medium tracking-wide uppercase text-sm mb-4">
+          Centro Terapéutico · Talca
         </p>
-        <h1 className="font-display text-4xl sm:text-5xl leading-tight text-sage-dark max-w-3xl mx-auto">
-          Cada avance tiene su propio ritmo. Lo acompañamos paso a paso.
+        <h1 className="font-display text-4xl sm:text-5xl leading-tight text-ink max-w-3xl mx-auto">
+          Acompañamos cada etapa de tu vida.
         </h1>
-        <p className="mt-6 text-lg text-ink/80 max-w-xl mx-auto">
+        <p className="mt-6 text-lg text-ink/70 max-w-xl mx-auto">
           Terapia ocupacional para niños y adultos: desarrollo, autonomía y
-          calidad de vida en cada etapa.
+          bienestar en cada etapa.
         </p>
         <div className="mt-8 flex justify-center gap-4 flex-wrap">
           <Link
             href="/agenda"
-            className="bg-terracotta text-cream px-7 py-3 rounded-full font-medium hover:bg-terracotta-dark transition-colors"
+            className="bg-amber text-cream px-7 py-3 rounded-full font-medium hover:bg-amber-dark transition-colors"
           >
             Agendar una hora
           </Link>
@@ -36,7 +36,7 @@ export default function Home() {
 
       {/* Servicios resumen */}
       <section className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="font-display text-3xl text-sage-dark text-center mb-10">
+        <h2 className="font-display text-3xl text-ink text-center mb-10">
           Áreas de trabajo
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -45,7 +45,7 @@ export default function Home() {
               key={s.slug}
               className="bg-sand rounded-organic p-6 hover:shadow-md transition-shadow"
             >
-              <span className="text-xs font-medium text-terracotta uppercase tracking-wide">
+              <span className="text-xs font-medium text-amber uppercase tracking-wide">
                 {s.poblacion}
               </span>
               <h3 className="font-display text-xl mt-2 mb-2 text-ink">
@@ -59,10 +59,10 @@ export default function Home() {
 
       {/* CTA final */}
       <section className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <h2 className="font-display text-2xl text-sage-dark mb-4">
+        <h2 className="font-display text-2xl text-ink mb-4">
           ¿Quieres conversar antes de agendar?
         </h2>
-        <p className="text-ink/80 mb-6">
+        <p className="text-ink/70 mb-6">
           Cuéntanos qué necesitas y te ayudamos a encontrar la mejor forma de empezar.
         </p>
         <Link

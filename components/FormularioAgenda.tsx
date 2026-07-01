@@ -179,13 +179,13 @@ export default function FormularioAgenda() {
       </div>
 
       {estado === "error" && (
-        <p className="text-terracotta-dark text-sm">{mensajeError}</p>
+        <p className="text-amber-dark text-sm">{mensajeError}</p>
       )}
 
       <button
         type="submit"
         disabled={estado === "enviando" || !hora}
-        className="w-full bg-terracotta text-cream py-3 rounded-full font-medium hover:bg-terracotta-dark transition-colors disabled:opacity-50"
+        className="w-full bg-amber text-cream py-3 rounded-full font-medium hover:bg-amber-dark transition-colors disabled:opacity-50"
       >
         {estado === "enviando" ? "Reservando..." : "Confirmar hora"}
       </button>

@@ -16,9 +16,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Crece TO — Terapia Ocupacional",
+  title: "Anidar · Centro Terapéutico",
   description:
-    "Terapia ocupacional para niños y adultos. Acompañamos cada etapa del desarrollo y la recuperación.",
+    "Centro terapéutico especializado en terapia ocupacional infantil y para adultos. Acompañamos cada etapa de tu vida.",
 };
 
 export default function RootLayout({

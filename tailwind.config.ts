@@ -9,17 +9,18 @@ const config: Config = {
     extend: {
       colors: {
         sage: {
-          DEFAULT: "#7C9473",
-          dark: "#5F7556",
-          light: "#A3B89B",
+          DEFAULT: "#6B7C5A",
+          dark: "#4F5E41",
+          light: "#8FA07A",
         },
-        terracotta: {
-          DEFAULT: "#D98C6B",
-          dark: "#C26F4C",
+        amber: {
+          DEFAULT: "#C8872A",
+          dark: "#A36A18",
+          light: "#E0A84E",
         },
-        cream: "#FAF6F0",
-        sand: "#F0E8DC",
-        ink: "#3D3530",
+        cream: "#F8F2E8",
+        sand: "#F0E6D2",
+        ink: "#5C3D1E",
       },
       fontFamily: {
         display: ["var(--font-fraunces)", "serif"],
