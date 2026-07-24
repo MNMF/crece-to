@@ -9,8 +9,8 @@ export default function Header() {
           <span className="block text-xs text-sage tracking-widest uppercase">Centro Terapéutico</span>
         </Link>
         <div className="hidden sm:flex items-center gap-8 text-sm font-medium text-ink/80">
-          <Link href="/sobre-mi" className="hover:text-amber-dark transition-colors">
-            Sobre mí
+          <Link href="/quienes-somos" className="hover:text-amber-dark transition-colors">
+            Quiénes somos
           </Link>
           <Link href="/servicios" className="hover:text-amber-dark transition-colors">
             Servicios

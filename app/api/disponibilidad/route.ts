@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-// Genera bloques de 50 min dentro de cada rango de disponibilidad
 function generarBloques(horaInicio: string, horaFin: string, duracionMin = 50) {
   const bloques: string[] = [];
   const [hI, mI] = horaInicio.split(":").map(Number);
@@ -18,9 +17,14 @@ function generarBloques(horaInicio: string, horaFin: string, duracionMin = 50) {
 }
 
 export async function GET(req: NextRequest) {
-  const fecha = req.nextUrl.searchParams.get("fecha"); // YYYY-MM-DD
-  if (!fecha) {
-    return NextResponse.json({ error: "Falta parámetro fecha" }, { status: 400 });
+  const fecha = req.nextUrl.searchParams.get("fecha");
+  const profesionalId = req.nextUrl.searchParams.get("profesionalId");
+
+  if (!fecha || !profesionalId) {
+    return NextResponse.json(
+      { error: "Faltan parámetros: fecha y profesionalId" },
+      { status: 400 }
+    );
   }
 
   const diaSemana = new Date(fecha + "T00:00:00").getDay();
@@ -28,6 +32,7 @@ export async function GET(req: NextRequest) {
   const { data: disponibilidad, error: errDisp } = await supabaseAdmin
     .from("disponibilidad")
     .select("hora_inicio, hora_fin")
+    .eq("profesional_id", profesionalId)
     .eq("dia_semana", diaSemana)
     .eq("activo", true);
 
@@ -43,13 +48,16 @@ export async function GET(req: NextRequest) {
     .from("citas")
     .select("hora")
     .eq("fecha", fecha)
+    .eq("profesional_id", profesionalId)
     .neq("estado", "cancelada");
 
   if (errCitas) {
     return NextResponse.json({ error: errCitas.message }, { status: 500 });
   }
 
-  const horasOcupadas = new Set((citasDelDia ?? []).map((c) => c.hora.slice(0, 5)));
+  const horasOcupadas = new Set(
+    (citasDelDia ?? []).map((c) => c.hora.slice(0, 5))
+  );
   const disponibles = todosBloques.filter((h) => !horasOcupadas.has(h));
 
   return NextResponse.json({ disponibles });
