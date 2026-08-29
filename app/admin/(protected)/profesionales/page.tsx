@@ -9,7 +9,7 @@ export default async function ProfesionalesAdminPage() {
   return (
     <div>
       <h1 className="font-display text-3xl text-ink mb-2">Profesionales</h1>
-      <p className="text-ink/60 text-sm mb-6">Aparecen en "Quiénes somos" y en el formulario de agenda. Para dar acceso al panel a un profesional: créale usuario en Supabase → Authentication → Users, copia el User ID y pégalo en la columna <code>user_id</code> de la tabla profesionales.</p>
+      <p className="text-ink/60 text-sm mb-6">Los profesionales registrados aparecen en la página "Quiénes somos" y en el formulario de agenda. <code>user_id</code> de la tabla profesionales.</p>
       <div className="space-y-3 mb-10">
         {profesionales?.map(p=>(
           <div key={p.id} className="bg-sand rounded-organic p-5 flex flex-wrap items-start justify-between gap-4">
