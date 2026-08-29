@@ -1,26 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background-color: #F8F2E8;
-  color: #5C3D1E;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-:focus-visible {
-  outline: 2px solid #D98C6B;
-  outline-offset: 2px;
-}
+html { scroll-behavior: smooth; }
+body { background-color: #FAF5EF; color: #6B3A1F; }
+:focus-visible { outline: 2px solid #D4922A; outline-offset: 2px; }

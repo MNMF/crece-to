@@ -1,42 +1,18 @@
-// Limpia el RUT dejando solo números y K mayúscula
-export function limpiarRut(rut: string): string {
-  return rut.replace(/[^0-9kK]/g, "").toUpperCase();
-}
-
-// Formatea el RUT como 12.345.678-9
+export function limpiarRut(rut: string): string { return rut.replace(/[^0-9kK]/g,"").toUpperCase(); }
 export function formatearRut(rut: string): string {
-  const limpio = limpiarRut(rut);
-  if (limpio.length <= 1) return limpio;
-  const cuerpo = limpio.slice(0, -1);
-  const dv = limpio.slice(-1);
-  const cuerpoFormateado = parseInt(cuerpo).toLocaleString("es-CL");
-  return `${cuerpoFormateado}-${dv}`;
+  const l = limpiarRut(rut);
+  if (l.length <= 1) return l;
+  const cuerpo = l.slice(0,-1), dv = l.slice(-1);
+  return `${parseInt(cuerpo).toLocaleString("es-CL")}-${dv}`;
 }
-
-// Valida el RUT usando el algoritmo módulo 11 chileno
 export function validarRut(rut: string): boolean {
-  const limpio = limpiarRut(rut);
-  if (limpio.length < 2) return false;
-
-  const cuerpo = limpio.slice(0, -1);
-  const dv = limpio.slice(-1);
-
+  const l = limpiarRut(rut);
+  if (l.length < 2) return false;
+  const cuerpo = l.slice(0,-1), dv = l.slice(-1);
   if (!/^\d+$/.test(cuerpo)) return false;
-
-  let suma = 0;
-  let multiplicador = 2;
-
-  for (let i = cuerpo.length - 1; i >= 0; i--) {
-    suma += parseInt(cuerpo[i]) * multiplicador;
-    multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
-  }
-
-  const resto = 11 - (suma % 11);
-  let dvEsperado: string;
-
-  if (resto === 11) dvEsperado = "0";
-  else if (resto === 10) dvEsperado = "K";
-  else dvEsperado = resto.toString();
-
-  return dv === dvEsperado;
+  let suma = 0, mult = 2;
+  for (let i = cuerpo.length-1; i >= 0; i--) { suma += parseInt(cuerpo[i])*mult; mult = mult===7?2:mult+1; }
+  const resto = 11-(suma%11);
+  const expected = resto===11?"0":resto===10?"K":resto.toString();
+  return dv===expected;
 }
