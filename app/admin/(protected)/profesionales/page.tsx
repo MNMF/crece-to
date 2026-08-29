@@ -9,7 +9,7 @@ export default async function ProfesionalesAdminPage() {
   return (
     <div>
       <h1 className="font-display text-3xl text-ink mb-2">Profesionales</h1>
-      <p className="text-ink/60 text-sm mb-6">Los profesionales registrados aparecen en la página "Quiénes somos" y en el formulario de agenda. </div>
+      <p className="text-ink/60 text-sm mb-6">Los profesionales registrados aparecen en la página "Quiénes somos" y en el formulario de agenda. </p>
       <div className="space-y-3 mb-10">
         {profesionales?.map(p=>(
           <div key={p.id} className="bg-sand rounded-organic p-5 flex flex-wrap items-start justify-between gap-4">
