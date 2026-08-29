@@ -1,3 +1,4 @@
+import FormularioDisponibilidad from "./FormularioDisponibilidad";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { getPerfilUsuario } from "@/lib/auth";
 import { agregarDisponibilidad, eliminarDisponibilidad, toggleDisponibilidad } from "../../actions";
@@ -27,15 +28,12 @@ export default async function DisponibilidadPage() {
         ))}
         {(!bloques||bloques.length===0)&&<p className="text-ink/40 text-sm">Sin bloques configurados aún.</p>}
       </div>
-      <h2 className="font-display text-xl text-ink mb-4">Agregar bloque</h2>
-      <form action={agregarDisponibilidad} className="flex flex-wrap gap-3 items-end">
-        {perfil?.rol==="admin"&&profs&&<select name="profesional_id" required className="rounded-lg border border-sage/40 bg-white px-3 py-2">{profs.map(p=><option key={p.id} value={p.id}>{p.nombre}</option>)}</select>}
-        {perfil?.rol==="profesional"&&<input type="hidden" name="profesional_id" value={perfil.profesionalId}/>}
-        <select name="dia_semana" required className="rounded-lg border border-sage/40 bg-white px-3 py-2">{dias.map((d,i)=><option key={i} value={i}>{d}</option>)}</select>
-        <input type="time" name="hora_inicio" required className="rounded-lg border border-sage/40 bg-white px-3 py-2"/>
-        <input type="time" name="hora_fin" required className="rounded-lg border border-sage/40 bg-white px-3 py-2"/>
-        <button className="bg-amber text-cream px-5 py-2 rounded-full font-medium hover:bg-amber-dark">Agregar</button>
-      </form>
+           <h2 className="font-display text-xl text-ink mb-4">Agregar bloque</h2>
+      <FormularioDisponibilidad
+        profesionales={profs}
+        rolAdmin={perfil?.rol === "admin"}
+        profesionalIdFijo={perfil?.rol === "profesional" ? perfil.profesionalId : undefined}
+      />
     </div>
   );
 }
