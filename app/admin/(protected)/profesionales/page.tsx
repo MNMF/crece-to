@@ -1,11 +1,20 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { getPerfilUsuario } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { agregarProfesional, eliminarProfesional } from "../../actions";
+import { agregarProfesional } from "../../actions";
+import EliminarProfesionalBoton from "./EliminarProfesionalBoton";
 export default async function ProfesionalesAdminPage() {
   const perfil=await getPerfilUsuario();
   if(perfil?.rol!=="admin") redirect("/admin");
   const {data:profesionales}=await supabaseAdmin.from("profesionales").select("*").order("orden");
+  const idsProfesionales=(profesionales??[]).map(p=>p.id);
+  const {data:citasData}=idsProfesionales.length>0
+    ?await supabaseAdmin.from("citas").select("profesional_id").in("profesional_id",idsProfesionales)
+    :{data:[] as {profesional_id:string|null}[]};
+  const citasPorProfesional:Record<string,number>={};
+  (citasData??[]).forEach(c=>{
+    if(c.profesional_id) citasPorProfesional[c.profesional_id]=(citasPorProfesional[c.profesional_id]??0)+1;
+  });
   return (
     <div>
       <h1 className="font-display text-3xl text-ink mb-2">Profesionales</h1>
@@ -19,7 +28,7 @@ export default async function ProfesionalesAdminPage() {
               {p.bio&&<p className="text-sm text-ink/60 mt-1">{p.bio}</p>}
               {p.diplomados?.length>0&&<p className="text-xs text-ink/50 mt-1">{p.diplomados.join(" · ")}</p>}
             </div>
-            <form action={eliminarProfesional.bind(null,p.id)}><button className="text-xs text-amber-dark hover:underline">Eliminar</button></form>
+            <EliminarProfesionalBoton id={p.id} nombre={p.nombre} citasCount={citasPorProfesional[p.id]??0} />
           </div>
         ))}
         {(!profesionales||profesionales.length===0)&&<p className="text-ink/40 text-sm">Sin profesionales registrados aún.</p>}
