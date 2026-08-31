@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { servicios } from "@/lib/servicios";
+import UbicacionSection from "@/components/UbicacionSection";
 
 export default function Home() {
   return (
@@ -34,7 +35,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-
+     <UbicacionSection />
       <section className="max-w-3xl mx-auto px-6 py-16 text-center">
         <h2 className="font-display text-2xl text-ink mb-4">¿Quieres conversar antes de agendar?</h2>
         <p className="text-ink/70 mb-6">Cuéntanos qué necesitas y te ayudamos a encontrar la mejor forma de empezar.</p>
