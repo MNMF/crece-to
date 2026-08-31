@@ -1,6 +1,6 @@
 
 const WHATSAPP_NUMBER = "56934873036";
-const WHATSAPP_MSG = encodeURIComponent("Hola, me gustaría obtener más información sobre los servicios de Anidar.");
+const WHATSAPP_MSG = encodeURIComponent("Hola, me gustaría obtener más información sobre los servicios de Centro Anidar.");
 
 export default function WhatsAppButton() {
   return (
