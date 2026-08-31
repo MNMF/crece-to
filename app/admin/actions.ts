@@ -56,8 +56,13 @@ export async function agregarProfesional(formData:FormData) {
 export async function eliminarProfesional(id:string) {
   const perfil=await getPerfilUsuario();
   if(!perfil||perfil.rol!=="admin") redirect("/admin");
-  await supabaseAdmin.from("profesionales").delete().eq("id",id);
+  const {error}=await supabaseAdmin.from("profesionales").delete().eq("id",id);
+  if(error){
+    console.error("Error al eliminar profesional:",error);
+    return {error:"No se pudo eliminar. Intenta de nuevo o revisa los logs."};
+  }
   revalidatePath("/admin/profesionales"); revalidatePath("/quienes-somos");
+  return {error:null};
 }
 
 export async function cerrarSesion() {
