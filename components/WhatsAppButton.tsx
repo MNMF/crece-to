@@ -1,5 +1,5 @@
-// ⚠️ Reemplaza 56XXXXXXXXX con el número real (ej. 56912345678)
-const WHATSAPP_NUMBER = "56XXXXXXXXX";
+
+const WHATSAPP_NUMBER = "56934873036";
 const WHATSAPP_MSG = encodeURIComponent("Hola, me gustaría obtener más información sobre los servicios de Anidar.");
 
 export default function WhatsAppButton() {
