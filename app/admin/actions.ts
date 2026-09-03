@@ -80,12 +80,12 @@ export async function eliminarCita(id:string) {
   if(!perfil) redirect("/admin/login");
   let q=supabaseAdmin.from("citas").delete().eq("id",id);
   if(perfil.rol==="profesional") q=q.eq("profesional_id",perfil.profesionalId);
-  const {error,count}=await q.select("id",{count:"exact"});
+  const {data,error}=await q.select("id");
   if(error){
     console.error("Error al eliminar cita:",error);
     return {error:"No se pudo eliminar. Intenta de nuevo."};
   }
-  if(!count){
+  if(!data||data.length===0){
     return {error:"No se encontró la cita, o no tienes permiso para eliminarla."};
   }
   revalidatePath("/admin");
