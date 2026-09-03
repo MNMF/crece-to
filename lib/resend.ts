@@ -1,6 +1,10 @@
 import { Resend } from "resend";
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
+// Si RESEND_API_KEY no está configurada (o no se ha desplegado aún), usamos un
+// valor de relleno para que el build de Next.js nunca falle por esto. Los envíos
+// simplemente fallarán en tiempo de ejecución (capturado por el try/catch en
+// cada lugar donde se llama a resend.emails.send) hasta que la key real esté puesta.
+export const resend = new Resend(process.env.RESEND_API_KEY || "re_missing_key");
 
 // Remitente: requiere que centroanidar.cl esté verificado en Resend.
 // Mientras no lo esté, los envíos a direcciones reales fallarán en silencio
