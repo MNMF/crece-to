@@ -1,8 +1,9 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { getPerfilUsuario } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { agregarProfesional, actualizarAreaProfesional } from "../../actions";
+import { agregarProfesional } from "../../actions";
 import EliminarProfesionalBoton from "./EliminarProfesionalBoton";
+import SelectorArea from "./SelectorArea";
 import { areas } from "@/lib/areas";
 
 export default async function ProfesionalesAdminPage() {
@@ -31,18 +32,7 @@ export default async function ProfesionalesAdminPage() {
               {p.diplomados?.length>0&&<p className="text-xs text-ink/50 mt-1">{p.diplomados.join(" · ")}</p>}
             </div>
             <div className="flex items-center gap-2 flex-wrap">
-              <form action={actualizarAreaProfesional} className="flex items-center gap-2">
-                <input type="hidden" name="id" value={p.id} />
-                <select
-                  name="area"
-                  defaultValue={p.area??""}
-                  onChange={(e)=>e.currentTarget.form?.requestSubmit()}
-                  className={`text-xs rounded-full border px-3 py-1.5 bg-white ${p.area?"border-sage/40 text-ink":"border-amber text-amber-dark"}`}
-                >
-                  <option value="">Sin asignar</option>
-                  {areas.map(a=><option key={a.slug} value={a.slug}>{a.nombre}</option>)}
-                </select>
-              </form>
+              <SelectorArea id={p.id} areaActual={p.area} />
               <EliminarProfesionalBoton id={p.id} nombre={p.nombre} citasCount={citasPorProfesional[p.id]??0} />
             </div>
           </div>
