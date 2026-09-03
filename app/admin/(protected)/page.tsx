@@ -1,5 +1,5 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { servicios } from "@/lib/servicios";
+import { areas } from "@/lib/areas";
 import { getPerfilUsuario } from "@/lib/auth";
 import { actualizarEstadoCita } from "../actions";
 
@@ -16,13 +16,13 @@ export default async function AdminCitasPage() {
       {(!citas||citas.length===0)&&<p className="text-ink/50">Aún no hay citas agendadas.</p>}
       <div className="space-y-3">
         {citas?.map(c=>{
-          const s=servicios.find(s=>s.slug===c.servicio_slug);
+          const a=areas.find(a=>a.slug===c.servicio_slug);
           return (
             <div key={c.id} className="bg-sand rounded-organic p-5 flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="font-medium">{c.fecha} · {c.hora.slice(0,5)} — {s?.titulo??c.servicio_slug}</p>
+                <p className="font-medium">{c.fecha} · {c.hora.slice(0,5)} — {a?.nombre??c.servicio_slug}</p>
                 {perfil?.rol==="admin"&&c.profesionales&&<p className="text-xs text-amber font-medium mt-0.5">{(c.profesionales as {nombre:string}).nombre}</p>}
-                <p className="text-sm text-ink/70 mt-1">{c.nombre_paciente} · RUT {c.rut_paciente} · {c.telefono}{c.email?` · ${c.email}`:""}</p>
+                <p className="text-sm text-ink/70 mt-1">{c.nombre_paciente}{c.edad?` (${c.edad} años)`:""} · RUT {c.rut_paciente} · {c.telefono}{c.email?` · ${c.email}`:""}</p>
                 {c.notas&&<p className="text-sm text-ink/60 mt-1">📝 {c.notas}</p>}
               </div>
               <div className="flex items-center gap-2 flex-wrap">
