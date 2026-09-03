@@ -51,7 +51,7 @@ export default function Footer() {
             <MapPinIcon className="w-4 h-4 mt-0.5 shrink-0" />
             <span>{DIRECCION_COMPLETA}</span>
           </div>
-          <p className="text-cream/50 text-xs pl-6">Atención presencial y visitas domiciliarias</p>
+          <p className="text-cream/50 text-xs pl-6">Atención presencial enfocado en todo el ciclo vital</p>
         </div>
 
         <div>
