@@ -1,17 +1,19 @@
 import Link from "next/link";
-import { servicios } from "@/lib/servicios";
+import { areas } from "@/lib/areas";
 import UbicacionSection from "@/components/UbicacionSection";
 
 export default function Home() {
   return (
     <main>
       <section className="max-w-5xl mx-auto px-6 pt-16 pb-10 text-center">
-        <p className="text-amber font-medium tracking-widest uppercase text-sm mb-4">Centro Terapéutico · Talca</p>
+        <p className="text-amber font-medium tracking-widest uppercase text-sm mb-4">
+          Centro Terapéutico en Talca
+        </p>
         <h1 className="font-display text-4xl sm:text-5xl leading-tight text-ink max-w-3xl mx-auto">
           Acompañamos cada etapa de tu vida.
         </h1>
         <p className="mt-6 text-lg text-ink/70 max-w-xl mx-auto">
-          Terapia ocupacional para niños y adultos: desarrollo, autonomía y bienestar en cada etapa.
+          Fonoaudiología, Terapia Ocupacional, Psicología y Psicopedagogía para niños, adolescentes y adultos, en un mismo centro en Talca.
         </p>
         <div className="mt-8 flex justify-center gap-4 flex-wrap">
           <Link href="/agenda" className="bg-amber text-cream px-7 py-3 rounded-full font-medium hover:bg-amber-dark transition-colors">
@@ -24,13 +26,15 @@ export default function Home() {
       </section>
 
       <section className="max-w-5xl mx-auto px-6 py-16">
-        <h2 className="font-display text-3xl text-ink text-center mb-10">Áreas de trabajo</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {servicios.map((s) => (
-            <div key={s.slug} className="bg-sand rounded-organic p-6 hover:shadow-md transition-shadow">
-              <span className="text-xs font-medium text-amber uppercase tracking-wide">{s.poblacion}</span>
-              <h3 className="font-display text-xl mt-2 mb-2 text-ink">{s.titulo}</h3>
-              <p className="text-sm text-ink/70">{s.resumen}</p>
+        <h2 className="font-display text-3xl text-ink text-center mb-2">Nuestras áreas de atención</h2>
+        <p className="text-ink/60 text-center max-w-xl mx-auto mb-10">
+          Un equipo multidisciplinario trabajando juntos por tu bienestar y el de tu familia.
+        </p>
+        <div className="grid sm:grid-cols-2 gap-6">
+          {areas.map((a) => (
+            <div key={a.slug} className="bg-sand rounded-organic p-6 hover:shadow-md transition-shadow">
+              <h3 className="font-display text-xl mb-2 text-ink">{a.nombre.replace("Atención ", "")}</h3>
+              <p className="text-sm text-ink/70">{a.descripcion}</p>
             </div>
           ))}
         </div>
