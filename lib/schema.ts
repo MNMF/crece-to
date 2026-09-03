@@ -14,6 +14,8 @@ export const negocioSchema = {
   description:
     "Centro terapéutico especializado en terapia ocupacional infantil y para adultos en Talca.",
   url: "https://centroanidar.cl",
+  logo: "https://centroanidar.cl/logo-icon.png",
+  image: "https://centroanidar.cl/logo-icon.png",
   telephone: "+56934873036",
   address: {
     "@type": "PostalAddress",
