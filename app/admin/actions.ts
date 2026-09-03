@@ -75,6 +75,23 @@ export async function eliminarProfesional(id:string) {
   return {error:null};
 }
 
+export async function eliminarCita(id:string) {
+  const perfil=await getPerfilUsuario();
+  if(!perfil) redirect("/admin/login");
+  let q=supabaseAdmin.from("citas").delete().eq("id",id);
+  if(perfil.rol==="profesional") q=q.eq("profesional_id",perfil.profesionalId);
+  const {error,count}=await q.select("id",{count:"exact"});
+  if(error){
+    console.error("Error al eliminar cita:",error);
+    return {error:"No se pudo eliminar. Intenta de nuevo."};
+  }
+  if(!count){
+    return {error:"No se encontró la cita, o no tienes permiso para eliminarla."};
+  }
+  revalidatePath("/admin");
+  return {error:null};
+}
+
 export async function cerrarSesion() {
   const s=await createClient(); await s.auth.signOut(); redirect("/admin/login");
 }
