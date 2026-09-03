@@ -238,7 +238,9 @@ function exportarCSV(citas: Cita[], esAdmin: boolean) {
   const hoy = format(new Date(), "yyyy-MM-dd");
   link.href = url;
   link.download = `citas-anidar-${hoy}.csv`;
+  document.body.appendChild(link);
   link.click();
+  document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
 
