@@ -196,6 +196,52 @@ function Calendario({ citas, esAdmin }: { citas: Cita[]; esAdmin: boolean }) {
   );
 }
 
+function exportarCSV(citas: Cita[], esAdmin: boolean) {
+  const encabezados = [
+    "Fecha",
+    "Hora",
+    "Área",
+    ...(esAdmin ? ["Profesional"] : []),
+    "Paciente",
+    "Edad",
+    "RUT",
+    "Teléfono",
+    "Email",
+    "Notas",
+    "Estado",
+  ];
+
+  const escapar = (v: string) => `"${v.replace(/"/g, '""')}"`;
+
+  const filas = citas.map((c) => {
+    const a = areas.find((a) => a.slug === c.servicio_slug);
+    const base = [
+      c.fecha,
+      c.hora.slice(0, 5),
+      a?.nombre ?? c.servicio_slug,
+      ...(esAdmin ? [c.profesionales?.nombre ?? ""] : []),
+      c.nombre_paciente,
+      c.edad?.toString() ?? "",
+      c.rut_paciente,
+      c.telefono,
+      c.email ?? "",
+      c.notas ?? "",
+      c.estado,
+    ];
+    return base.map((v) => escapar(v)).join(",");
+  });
+
+  const csv = "\ufeff" + [encabezados.map(escapar).join(","), ...filas].join("\r\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  const hoy = format(new Date(), "yyyy-MM-dd");
+  link.href = url;
+  link.download = `citas-anidar-${hoy}.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function VistaCitas({ citas, esAdmin }: { citas: Cita[]; esAdmin: boolean }) {
   const [vista, setVista] = useState<"lista" | "calendario">("lista");
 
@@ -203,25 +249,35 @@ export default function VistaCitas({ citas, esAdmin }: { citas: Cita[]; esAdmin:
     <div>
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
         <h1 className="font-display text-3xl text-ink">Citas</h1>
-        <div className="flex gap-1 bg-sand rounded-full p-1 text-sm">
+        <div className="flex items-center gap-3 flex-wrap">
           <button
             type="button"
-            onClick={() => setVista("lista")}
-            className={`px-4 py-1.5 rounded-full font-medium transition-colors ${
-              vista === "lista" ? "bg-amber text-cream" : "text-ink/60 hover:text-ink"
-            }`}
+            onClick={() => exportarCSV(citas, esAdmin)}
+            disabled={citas.length === 0}
+            className="text-sm px-4 py-1.5 rounded-full border border-sage/40 text-ink/70 hover:bg-sand transition-colors disabled:opacity-40"
           >
-            Lista
+            ⬇ Exportar CSV
           </button>
-          <button
-            type="button"
-            onClick={() => setVista("calendario")}
-            className={`px-4 py-1.5 rounded-full font-medium transition-colors ${
-              vista === "calendario" ? "bg-amber text-cream" : "text-ink/60 hover:text-ink"
-            }`}
-          >
-            Calendario
-          </button>
+          <div className="flex gap-1 bg-sand rounded-full p-1 text-sm">
+            <button
+              type="button"
+              onClick={() => setVista("lista")}
+              className={`px-4 py-1.5 rounded-full font-medium transition-colors ${
+                vista === "lista" ? "bg-amber text-cream" : "text-ink/60 hover:text-ink"
+              }`}
+            >
+              Lista
+            </button>
+            <button
+              type="button"
+              onClick={() => setVista("calendario")}
+              className={`px-4 py-1.5 rounded-full font-medium transition-colors ${
+                vista === "calendario" ? "bg-amber text-cream" : "text-ink/60 hover:text-ink"
+              }`}
+            >
+              Calendario
+            </button>
+          </div>
         </div>
       </div>
 
