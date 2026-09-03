@@ -17,6 +17,7 @@ import {
 import { es } from "date-fns/locale";
 import { areas } from "@/lib/areas";
 import { actualizarEstadoCita } from "../actions";
+import EliminarCitaBoton from "./EliminarCitaBoton";
 
 type Cita = {
   id: string;
@@ -88,6 +89,10 @@ function CitaCard({ c, esAdmin }: { c: Cita; esAdmin: boolean }) {
             </button>
           </form>
         )}
+        <EliminarCitaBoton
+          id={c.id}
+          descripcion={`${c.nombre_paciente} · ${c.fecha} ${c.hora.slice(0, 5)}`}
+        />
       </div>
     </div>
   );
@@ -197,7 +202,8 @@ function Calendario({ citas, esAdmin }: { citas: Cita[]; esAdmin: boolean }) {
 }
 
 function exportarCSV(citas: Cita[], esAdmin: boolean) {
-  const encabezados = [
+  try {
+    const encabezados = [
     "Fecha",
     "Hora",
     "Área",
@@ -211,21 +217,21 @@ function exportarCSV(citas: Cita[], esAdmin: boolean) {
     "Estado",
   ];
 
-  const escapar = (v: string) => `"${v.replace(/"/g, '""')}"`;
+  const escapar = (v: string | null | undefined) => `"${(v ?? "").toString().replace(/"/g, '""')}"`;
 
   const filas = citas.map((c) => {
     const a = areas.find((a) => a.slug === c.servicio_slug);
     const base = [
       c.fecha,
-      c.hora.slice(0, 5),
-      a?.nombre ?? c.servicio_slug,
+      c.hora?.slice(0, 5) ?? "",
+      a?.nombre ?? c.servicio_slug ?? "",
       ...(esAdmin ? [c.profesionales?.nombre ?? ""] : []),
       c.nombre_paciente,
-      c.edad?.toString() ?? "",
+      c.edad != null ? String(c.edad) : "",
       c.rut_paciente,
       c.telefono,
-      c.email ?? "",
-      c.notas ?? "",
+      c.email,
+      c.notas,
       c.estado,
     ];
     return base.map((v) => escapar(v)).join(",");
@@ -242,6 +248,10 @@ function exportarCSV(citas: Cita[], esAdmin: boolean) {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error("Error al exportar CSV:", err);
+    alert("No se pudo generar el CSV. Revisa la consola del navegador (F12) para más detalle, o avísale a Matías.");
+  }
 }
 
 export default function VistaCitas({ citas, esAdmin }: { citas: Cita[]; esAdmin: boolean }) {
