@@ -1,8 +1,10 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { getPerfilUsuario } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { agregarProfesional } from "../../actions";
+import { agregarProfesional, actualizarAreaProfesional } from "../../actions";
 import EliminarProfesionalBoton from "./EliminarProfesionalBoton";
+import { areas } from "@/lib/areas";
+
 export default async function ProfesionalesAdminPage() {
   const perfil=await getPerfilUsuario();
   if(perfil?.rol!=="admin") redirect("/admin");
@@ -18,7 +20,7 @@ export default async function ProfesionalesAdminPage() {
   return (
     <div>
       <h1 className="font-display text-3xl text-ink mb-2">Profesionales</h1>
-      <p className="text-ink/60 text-sm mb-6">Los profesionales registrados aparecen en la página "Quiénes somos" y en el formulario de agenda. </p>
+      <p className="text-ink/60 text-sm mb-6">Los profesionales registrados aparecen en la página "Quiénes somos" y en el formulario de agenda. El <strong>área de atención</strong> determina en qué paso del formulario de agenda aparece cada profesional — si no tiene área asignada, no aparecerá para agendar.</p>
       <div className="space-y-3 mb-10">
         {profesionales?.map(p=>(
           <div key={p.id} className="bg-sand rounded-organic p-5 flex flex-wrap items-start justify-between gap-4">
@@ -28,7 +30,21 @@ export default async function ProfesionalesAdminPage() {
               {p.bio&&<p className="text-sm text-ink/60 mt-1">{p.bio}</p>}
               {p.diplomados?.length>0&&<p className="text-xs text-ink/50 mt-1">{p.diplomados.join(" · ")}</p>}
             </div>
-            <EliminarProfesionalBoton id={p.id} nombre={p.nombre} citasCount={citasPorProfesional[p.id]??0} />
+            <div className="flex items-center gap-2 flex-wrap">
+              <form action={actualizarAreaProfesional} className="flex items-center gap-2">
+                <input type="hidden" name="id" value={p.id} />
+                <select
+                  name="area"
+                  defaultValue={p.area??""}
+                  onChange={(e)=>e.currentTarget.form?.requestSubmit()}
+                  className={`text-xs rounded-full border px-3 py-1.5 bg-white ${p.area?"border-sage/40 text-ink":"border-amber text-amber-dark"}`}
+                >
+                  <option value="">Sin asignar</option>
+                  {areas.map(a=><option key={a.slug} value={a.slug}>{a.nombre}</option>)}
+                </select>
+              </form>
+              <EliminarProfesionalBoton id={p.id} nombre={p.nombre} citasCount={citasPorProfesional[p.id]??0} />
+            </div>
           </div>
         ))}
         {(!profesionales||profesionales.length===0)&&<p className="text-ink/40 text-sm">Sin profesionales registrados aún.</p>}
@@ -36,7 +52,14 @@ export default async function ProfesionalesAdminPage() {
       <h2 className="font-display text-xl text-ink mb-4">Agregar profesional</h2>
       <form action={agregarProfesional} className="space-y-4 max-w-lg">
         <div><label className="block text-sm font-medium mb-1">Nombre completo</label><input name="nombre" required className="w-full rounded-lg border border-sage/40 bg-white px-4 py-2.5"/></div>
-        <div><label className="block text-sm font-medium mb-1">Especialidad</label><input name="especialidad" required placeholder="ej. Terapeuta Ocupacional Infantil" className="w-full rounded-lg border border-sage/40 bg-white px-4 py-2.5"/></div>
+        <div><label className="block text-sm font-medium mb-1">Especialidad (texto para "Quiénes somos")</label><input name="especialidad" required placeholder="ej. Terapeuta Ocupacional Infantil" className="w-full rounded-lg border border-sage/40 bg-white px-4 py-2.5"/></div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Área de atención (para el formulario de agenda)</label>
+          <select name="area" required className="w-full rounded-lg border border-sage/40 bg-white px-4 py-2.5">
+            <option value="">Selecciona un área</option>
+            {areas.map(a=><option key={a.slug} value={a.slug}>{a.nombre}</option>)}
+          </select>
+        </div>
         <div><label className="block text-sm font-medium mb-1">Bio (opcional)</label><textarea name="bio" rows={3} className="w-full rounded-lg border border-sage/40 bg-white px-4 py-2.5"/></div>
         <div><label className="block text-sm font-medium mb-1">Diplomados / formación (uno por línea)</label><textarea name="diplomados" rows={3} placeholder={"Diplomado en Integración Sensorial\nPostítulo en Neurorrehabilitación"} className="w-full rounded-lg border border-sage/40 bg-white px-4 py-2.5 text-sm"/></div>
         <button type="submit" className="bg-amber text-cream px-6 py-2.5 rounded-full font-medium hover:bg-amber-dark">Agregar profesional</button>
