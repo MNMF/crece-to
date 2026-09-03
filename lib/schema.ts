@@ -12,7 +12,7 @@ export const negocioSchema = {
   name: "Anidar Centro Terapéutico",
   alternateName: "Crece TO",
   description:
-    "Centro terapéutico especializado en terapia ocupacional infantil y para adultos en Talca.",
+    "Centro terapéutico en Talca con atención en Fonoaudiología, Terapia Ocupacional, Psicología y Psicopedagogía para niños, adolescentes y adultos.",
   url: "https://centroanidar.cl",
   logo: "https://centroanidar.cl/logo-icon.png",
   image: "https://centroanidar.cl/logo-icon.png",
@@ -34,7 +34,7 @@ export const negocioSchema = {
   //     closes: "18:00",
   //   },
   // ],
-  medicalSpecialty: "Occupational Therapy",
+  knowsAbout: ["Fonoaudiología", "Terapia Ocupacional", "Psicología", "Psicopedagogía"],
   areaServed: {
     "@type": "City",
     name: "Talca",
