@@ -4,6 +4,9 @@ import { redirect } from "next/navigation";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { createClient } from "@/lib/supabase/server";
 import { getPerfilUsuario } from "@/lib/auth";
+import { resend, REMITENTE } from "@/lib/resend";
+import { emailConfirmacionCita } from "@/lib/emailTemplates";
+import { areas } from "@/lib/areas";
 
 async function verificarSesion() {
   const s=await createClient(); const {data}=await s.auth.getUser();
@@ -12,8 +15,28 @@ async function verificarSesion() {
 
 export async function actualizarEstadoCita(id:string,estado:"confirmada"|"cancelada"|"realizada") {
   await verificarSesion();
-  await supabaseAdmin.from("citas").update({estado}).eq("id",id);
+  const {data:cita}=await supabaseAdmin.from("citas").update({estado}).eq("id",id).select("*, profesionales(nombre)").single();
   revalidatePath("/admin");
+
+  if (estado==="confirmada" && cita?.email) {
+    try {
+      const { subject, html } = emailConfirmacionCita({
+        nombrePaciente: cita.nombre_paciente,
+        edad: cita.edad,
+        areaNombre: areas.find(a=>a.slug===cita.servicio_slug)?.nombre ?? cita.servicio_slug,
+        profesionalNombre: (cita.profesionales as {nombre:string}|null)?.nombre ?? "el equipo de Anidar",
+        fecha: cita.fecha,
+        hora: cita.hora,
+        telefono: cita.telefono,
+        email: cita.email,
+        rut: cita.rut_paciente,
+        notas: cita.notas,
+      });
+      await resend.emails.send({ from: REMITENTE, to: cita.email, subject, html });
+    } catch (err) {
+      console.error("Error enviando email de confirmación:", err);
+    }
+  }
 }
 
 export async function agregarDisponibilidad(formData:FormData) {
