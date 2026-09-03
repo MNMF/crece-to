@@ -10,9 +10,9 @@ const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", wei
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const SITE_URL = "https://centroanidar.cl";
-const TITLE = "Anidar Centro Terapéutico | Terapia Ocupacional en Talca";
+const TITLE = "Anidar Centro Terapéutico en Talca | Fonoaudiología, TO, Psicología y Psicopedagogía";
 const DESCRIPTION =
-  "Centro terapéutico en Talca especializado en terapia ocupacional infantil y para adultos: estimulación temprana, integración sensorial, rehabilitación neurológica y más. Agenda tu hora online.";
+  "Centro terapéutico en Talca con atención en Fonoaudiología, Terapia Ocupacional, Psicología y Psicopedagogía para niños, adolescentes y adultos. Agenda tu hora online.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -22,12 +22,14 @@ export const metadata: Metadata = {
   },
   description: DESCRIPTION,
   keywords: [
+    "centro terapéutico Talca",
+    "fonoaudiología Talca",
     "terapia ocupacional Talca",
-    "terapia ocupacional infantil",
+    "psicología infantil Talca",
+    "psicopedagogía Talca",
     "estimulación temprana Talca",
     "integración sensorial",
     "rehabilitación neurológica Talca",
-    "centro terapéutico Talca",
   ],
   authors: [{ name: "Anidar Centro Terapéutico" }],
   alternates: {
