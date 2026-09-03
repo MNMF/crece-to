@@ -51,7 +51,7 @@ export async function agregarProfesional(formData:FormData) {
     bio:(formData.get("bio") as string)||null,
     diplomados,
   });
-  revalidatePath("/admin/profesionales"); revalidatePath("/quienes-somos");
+  revalidatePath("/admin/profesionales"); revalidatePath("/quienes-somos"); revalidatePath("/agenda");
 }
 
 export async function actualizarAreaProfesional(formData:FormData) {
