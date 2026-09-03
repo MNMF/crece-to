@@ -39,6 +39,5 @@ export const negocioSchema = {
     "@type": "City",
     name: "Talca",
   },
-  // TODO (opcional): agrega tus redes sociales si las tienes, ej:
-  // sameAs: ["https://www.instagram.com/centroanidar", "https://www.facebook.com/centroanidar"],
+  sameAs: ["https://www.instagram.com/centro.anidar"],
 };
