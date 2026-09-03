@@ -47,10 +47,20 @@ export async function agregarProfesional(formData:FormData) {
   await supabaseAdmin.from("profesionales").insert({
     nombre:formData.get("nombre") as string,
     especialidad:formData.get("especialidad") as string,
+    area:(formData.get("area") as string)||null,
     bio:(formData.get("bio") as string)||null,
     diplomados,
   });
   revalidatePath("/admin/profesionales"); revalidatePath("/quienes-somos");
+}
+
+export async function actualizarAreaProfesional(formData:FormData) {
+  const perfil=await getPerfilUsuario();
+  if(!perfil||perfil.rol!=="admin") redirect("/admin");
+  const id=formData.get("id") as string;
+  const area=(formData.get("area") as string)||null;
+  await supabaseAdmin.from("profesionales").update({area}).eq("id",id);
+  revalidatePath("/admin/profesionales"); revalidatePath("/agenda");
 }
 
 export async function eliminarProfesional(id:string) {
