@@ -169,6 +169,7 @@ export default function FormularioAgenda({ profesionales }: { profesionales: Pro
                 }`}
               >
                 <p className="font-medium text-ink">{a.nombre}</p>
+                <p className="text-sm text-ink/60 mt-0.5">{a.descripcion}</p>
               </button>
             ))}
           </div>
