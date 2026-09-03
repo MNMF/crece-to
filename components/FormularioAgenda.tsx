@@ -1,14 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
-import { servicios } from "@/lib/servicios";
+import { areas } from "@/lib/areas";
 import { validarRut, formatearRut, limpiarRut } from "@/lib/rut";
 
-type Profesional = { id: string; nombre: string; especialidad: string };
+type Profesional = { id: string; nombre: string; especialidad: string; area: string | null };
 type Estado = "form" | "enviando" | "exito" | "error";
 
 const PASOS = [
-  "Selecciona Tratamiento",
-  "Selecciona Profesional",
+  "Selecciona atención",
+  "Profesionales",
   "Selecciona día y hora",
   "Ingrese sus datos",
 ] as const;
@@ -57,13 +57,14 @@ function Stepper({ pasoActual }: { pasoActual: number }) {
 export default function FormularioAgenda({ profesionales }: { profesionales: Profesional[] }) {
   const [paso, setPaso] = useState(1);
 
-  const [servicioSlug, setServicioSlug] = useState(servicios[0].slug);
-  const [profesionalId, setProfesionalId] = useState(profesionales[0]?.id ?? "");
+  const [areaSlug, setAreaSlug] = useState("");
+  const [profesionalId, setProfesionalId] = useState("");
   const [fecha, setFecha] = useState("");
   const [hora, setHora] = useState("");
   const [horasDisponibles, setHorasDisponibles] = useState<string[]>([]);
   const [cargandoHoras, setCargandoHoras] = useState(false);
   const [nombre, setNombre] = useState("");
+  const [edad, setEdad] = useState("");
   const [rut, setRut] = useState("");
   const [rutValido, setRutValido] = useState<boolean | null>(null);
   const [telefono, setTelefono] = useState("");
@@ -71,6 +72,8 @@ export default function FormularioAgenda({ profesionales }: { profesionales: Pro
   const [notas, setNotas] = useState("");
   const [estado, setEstado] = useState<Estado>("form");
   const [mensajeError, setMensajeError] = useState("");
+
+  const profesionalesFiltrados = profesionales.filter((p) => p.area === areaSlug);
 
   useEffect(() => {
     if (!fecha || !profesionalId) {
@@ -108,9 +111,10 @@ export default function FormularioAgenda({ profesionales }: { profesionales: Pro
       body: JSON.stringify({
         fecha,
         hora,
-        servicio_slug: servicioSlug,
+        servicio_slug: areaSlug,
         profesional_id: profesionalId,
         nombre_paciente: nombre,
+        edad: edad ? Number(edad) : null,
         rut_paciente: rut,
         telefono,
         email,
@@ -127,16 +131,15 @@ export default function FormularioAgenda({ profesionales }: { profesionales: Pro
   }
 
   const prof = profesionales.find((p) => p.id === profesionalId);
-  const servicio = servicios.find((s) => s.slug === servicioSlug);
+  const area = areas.find((a) => a.slug === areaSlug);
 
   if (estado === "exito") {
     return (
       <div className="bg-sand rounded-organic p-8 text-center">
         <h2 className="font-display text-2xl text-ink mb-2">¡Hora reservada!</h2>
         <p className="text-ink/80">
-          Sesión de <strong>{servicio?.titulo}</strong> con <strong>{prof?.nombre}</strong> para el{" "}
-          <strong>{fecha}</strong> a las <strong>{hora}</strong>. Te contactaremos al {telefono} para
-          confirmar.
+          {area?.nombre} con <strong>{prof?.nombre}</strong> para el <strong>{fecha}</strong> a las{" "}
+          <strong>{hora}</strong>. Te contactaremos al {telefono} para confirmar.
         </p>
       </div>
     );
@@ -149,49 +152,53 @@ export default function FormularioAgenda({ profesionales }: { profesionales: Pro
     <div>
       <Stepper pasoActual={paso} />
 
-      {/* Paso 1: Tratamiento */}
+      {/* Paso 1: Selecciona atención */}
       {paso === 1 && (
         <div className="space-y-5">
           <div className="grid gap-3">
-            {servicios.map((s) => (
+            {areas.map((a) => (
               <button
-                key={s.slug}
+                key={a.slug}
                 type="button"
-                onClick={() => setServicioSlug(s.slug)}
+                onClick={() => {
+                  setAreaSlug(a.slug);
+                  setProfesionalId("");
+                }}
                 className={`text-left rounded-organic border p-4 transition-colors ${
-                  servicioSlug === s.slug
-                    ? "border-amber bg-amber/10"
-                    : "border-sage/30 bg-white hover:border-sage"
+                  areaSlug === a.slug ? "border-amber bg-amber/10" : "border-sage/30 bg-white hover:border-sage"
                 }`}
               >
-                <p className="font-medium text-ink">{s.titulo}</p>
-                <p className="text-sm text-ink/60 mt-0.5">{s.resumen}</p>
+                <p className="font-medium text-ink">{a.nombre}</p>
               </button>
             ))}
           </div>
           <button
             type="button"
+            disabled={!areaSlug}
             onClick={() => setPaso(2)}
-            className="w-full bg-amber text-cream py-3 rounded-full font-medium hover:bg-amber-dark transition-colors"
+            className="w-full bg-amber text-cream py-3 rounded-full font-medium hover:bg-amber-dark transition-colors disabled:opacity-50"
           >
             Continuar
           </button>
         </div>
       )}
 
-      {/* Paso 2: Profesional */}
+      {/* Paso 2: Profesionales */}
       {paso === 2 && (
         <div className="space-y-5">
           <div className="grid gap-3">
-            {profesionales.map((p) => (
+            {profesionalesFiltrados.length === 0 && (
+              <p className="text-sm text-ink/50">
+                No hay profesionales disponibles para {area?.nombre.toLowerCase()} por el momento.
+              </p>
+            )}
+            {profesionalesFiltrados.map((p) => (
               <button
                 key={p.id}
                 type="button"
                 onClick={() => setProfesionalId(p.id)}
                 className={`text-left rounded-organic border p-4 transition-colors ${
-                  profesionalId === p.id
-                    ? "border-amber bg-amber/10"
-                    : "border-sage/30 bg-white hover:border-sage"
+                  profesionalId === p.id ? "border-amber bg-amber/10" : "border-sage/30 bg-white hover:border-sage"
                 }`}
               >
                 <p className="font-medium text-ink">{p.nombre}</p>
@@ -281,12 +288,24 @@ export default function FormularioAgenda({ profesionales }: { profesionales: Pro
       {paso === 4 && (
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="bg-sand rounded-organic p-4 text-sm text-ink/70">
-            <strong className="text-ink">{servicio?.titulo}</strong> con{" "}
+            <strong className="text-ink">{area?.nombre}</strong> con{" "}
             <strong className="text-ink">{prof?.nombre}</strong> — {fecha} a las {hora}
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Nombre del paciente</label>
             <input required value={nombre} onChange={(e) => setNombre(e.target.value)} className={inputClass} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Edad</label>
+            <input
+              type="number"
+              min={0}
+              max={120}
+              required
+              value={edad}
+              onChange={(e) => setEdad(e.target.value)}
+              className={inputClass}
+            />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">RUT</label>
