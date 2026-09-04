@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-function generarBloques(horaInicio: string, horaFin: string, dur=50) {
+function generarBloques(horaInicio: string, horaFin: string, dur=60) {
   const bloques: string[] = [];
   const [hI,mI]=horaInicio.split(":").map(Number);
   const [hF,mF]=horaFin.split(":").map(Number);
