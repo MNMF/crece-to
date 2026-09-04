@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import TopBar from "@/components/TopBar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { negocioSchema } from "@/lib/schema";
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className={`${fraunces.variable} ${inter.variable} font-body`}>
+        <TopBar />
         <Header />
         {children}
         <WhatsAppButton />
