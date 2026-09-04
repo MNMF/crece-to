@@ -16,9 +16,7 @@ export default function TopBar() {
             <circle cx="12" cy="12" r="10" />
             <polyline points="12 6 12 12 16 14" />
           </svg>
-          <span>
-            Lunes a sábado · 09:00–13:00 y 14:00–20:00
-          </span>
+          <span>Lunes a Sabado - 09:00 a 13:00 y 14:00 a 20:00</span>
         </div>
 
         <span className="hidden sm:inline text-cream/40">|</span>
