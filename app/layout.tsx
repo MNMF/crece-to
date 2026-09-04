@@ -6,6 +6,7 @@ import TopBar from "@/components/TopBar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { negocioSchema } from "@/lib/schema";
+ import { Analytics } from "@vercel/analytics/next"; 
 
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", weight: ["400","500","600"] });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -70,6 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <WhatsAppButton />
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
