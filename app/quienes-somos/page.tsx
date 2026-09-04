@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function QuienesSomosPage() {
   return (
-    <main className="max-w-4xl mx-auto px-6 py-16">
+    <main className="max-w-4xl mx-auto px-6 py-16 text-center">
       <h1 className="font-display text-4xl text-ink mb-2">Quiénes somos</h1>
-      <p className="text-ink/70 mb-12 max-w-xl">
+      <p className="text-ink/70 mb-12 max-w-xl mx-auto">
         Somos un equipo de terapeutas ocupacionales comprometidos con acompañar
         cada etapa del desarrollo y la recuperación de nuestros pacientes.
       </p>
@@ -45,7 +45,7 @@ export default function QuienesSomosPage() {
         </div>
       </div>
 
-      <div className="mt-12 text-center">
+      <div className="mt-12">
         <Link
           href="/agenda"
           className="bg-amber text-cream px-7 py-3 rounded-full font-medium hover:bg-amber-dark transition-colors inline-block"
