@@ -1,6 +1,6 @@
 export default function TopBar() {
   return (
-    <div className="bg-sage-dark text-cream text-xs sm:text-sm">
+    <div className="bg-ink text-cream text-xs sm:text-sm">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-2 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-6 text-center">
         <div className="flex items-center gap-2">
           <svg
