@@ -5,7 +5,7 @@ export default function QuienesSomosPage() {
     <main className="max-w-4xl mx-auto px-6 py-16 text-center">
       <h1 className="font-display text-4xl text-ink mb-2">Quiénes somos</h1>
       <p className="text-ink/70 mb-12 max-w-xl mx-auto">
-        Somos un equipo de terapeutas ocupacionales comprometidos con acompañar
+        Somos un equipo multidisciplinario comprometidos con acompañar
         cada etapa del desarrollo y la recuperación de nuestros pacientes.
       </p>
 
