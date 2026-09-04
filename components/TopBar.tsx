@@ -16,12 +16,12 @@ export default function TopBar() {
             <circle cx="12" cy="12" r="10" />
             <polyline points="12 6 12 12 16 14" />
           </svg>
-          <span>Lunes a Sabado - 09:00 a 13:00 y 14:00 a 20:00</span>
+          <span>Lunes a sabado - 09:00 a 13:00 y 14:00 a 20:00</span>
         </div>
 
         <span className="hidden sm:inline text-cream/40">|</span>
 
-        
+        <a
           href="https://www.google.com/maps/search/?api=1&query=Calle+1+Sur+690+Edificio+Plaza+Talca+Piso+12+Oficina+1210+Talca"
           target="_blank"
           rel="noopener noreferrer"
